@@ -1,0 +1,50 @@
+{
+    "name": "andycommerce/core", 
+    "description": "A Laravel Package for Andy commerce core development",
+    "keywords": [
+      "php",
+      "github",
+      "laravel",
+      "Open Source",
+      "payments",
+      "crypto",
+      "subscription",
+      "Nowpayments",
+      "crypto payments",
+      "laravel 6",
+      "laravel 7",
+      "laravel 8",
+      "laravel 9"
+    ],    
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "autoload": {
+      "files": [
+        
+      ],
+        "psr-4": {
+            "AndyCommerce\\Core\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "rakesh",
+            "email": "rickragav4075@gmail.com"
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^7.0.1",
+        "yajra/laravel-datatables": "^10.1",
+        "unisharp/laravel-filemanager": "^2.9"
+    },
+    "extra": {
+      "laravel": {
+        "providers": [
+          "AndyCommerce\\Core\\CoreServiceProvider"
+        ],
+        "aliases": {
+          "category": "AndyCommerce\\Core\\Facades\\Category"
+        }
+      }
+    }
+}
