@@ -35,4 +35,34 @@
 
 @push('scripts')
     {{ $dataTable->scripts(attributes: ['type' => 'module']) }}
+
+    <script>
+        $(document).ready(function() {
+            const changeStatusUrl = "{{ route('vendor.product.change-status',[Auth::user()->username]) }}"; // Generate URL from Blade
+
+            $('body').on('click', '.change-status', function(event) {
+
+                let isChecked = $(this).is(':checked');
+                let id = $(this).data('id');
+
+                console.log('id ' + id);
+
+                $.ajax({
+                    url: changeStatusUrl,  // Use pre-generated URL
+                    method: 'PUT',
+                    data: {
+                        status: isChecked,
+                        id: id
+                    },
+
+                    success: function(data) {
+                        toastr.success(data.message)
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            });
+        });
+    </script>
 @endpush

@@ -18,9 +18,9 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Product: </h4>
+                            <h4>Product: {{$variant->name}}</h4>
                             <div class="card-header-action">
-                                <a href="{{ route('vendor.products-variant.create', ['username' => Auth::user()->username]) }}"
+                                <a href="{{ route('vendor.products-variant-item.create', ['username' => Auth::user()->username, $product->id, $variant->id]) }}"
                                     class="btn btn-primary"> <i class="fas fa-plus"></i> Create New</a>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
 
     <script>
         $(document).ready(function() {
-            const changeStatusUrl = "{{ route('vendor.products-variant.change-status',[Auth::user()->username]) }}"; // Generate URL from Blade
+            const changeStatusUrl = "{{ route('vendor.products-variant-item.change-status',[Auth::user()->username]) }}"; // Generate URL from Blade
 
             $('body').on('click', '.change-status', function(event) {
 

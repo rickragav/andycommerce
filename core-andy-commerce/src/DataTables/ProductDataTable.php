@@ -41,7 +41,7 @@ class ProductDataTable extends DataTable
                             <i class="far fa-heart"></i> Image Gallery
                         </a>';
 
-                if ($query->isvariant) {
+                if ($query->is_variant) {
                     $moreBtn .= '
                         <a class="dropdown-item has-icon" href="' .
                         route('vendor.products-variant.index', [Auth::user()->username, 'product' => $query->id]) .

@@ -59,6 +59,16 @@
                         <div class="card mb-4" id="section-2">
                             <div class="card-body">
                                 <h5 class="mb-4">Images</h5>
+                                <div class="form-group">
+                                    <label>Preview</label>
+                                    <br>
+                                    <div class="col d-flex p-0">
+                                        <div id="holder">
+                                            <!-- Content of meta_holder -->
+                                        </div>
+
+                                    </div>
+                                </div>
                                 <div class="mb-4">
                                     <label class="form-label">Thumbnail (592x592)</label>
                                     <div class="tt-image-drop rounded">
@@ -268,10 +278,24 @@
                                 </div>
                                 <div class="mb-4">
                                     <label class="form-label">Meta Image (1200x630)</label>
+                                    <div class="form-group">
+                                        <label>Preview</label>
+                                        <br>
+                                        <div class="col d-flex p-0">
+                                            <div id="meta_holder">
+                                                <!-- Content of meta_holder -->
+                                            </div>
+
+                                        </div>
+
+
+
+
+                                    </div>
                                     <div class="tt-image-drop rounded">
                                         <span class="fw-semibold">Choose Meta Image</span>
                                         <!-- choose media -->
-                                        <div id="lfm2" data-input="meta_image" data-preview="holder"
+                                        <div id="lfm2" data-input="meta_image" data-preview="meta_holder"
                                             class="tt-product-thumb mt-3 cursor-pointer">
                                             <div class="no-avatar-gallery rounded-circle ">
                                                 <input id="meta_image" class="form-control" type="hidden"
@@ -347,6 +371,14 @@
 
 @push('scripts')
     <script>
+        // Initialize file manager for both fields
+        file_manager("lfm", "image", false, {
+            prefix: route_prefix
+        });
+        file_manager("lfm2", "image", false, {
+            prefix: route_prefix
+        });
+
         $(document).ready(function() {
             $('body').on('change', '.main-category', function(e) {
                 let id = $(this).val()

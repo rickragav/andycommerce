@@ -3,6 +3,7 @@
 namespace AndyCommerce\Core\Controllers;
 
 use AndyCommerce\Core\DataTables\ProductVariantDataTable;
+use AndyCommerce\Core\Models\ProductVariantItem;
 use AndyCommerce\Core\Services\ProductCoreService;
 use AndyCommerce\Core\Services\ProductVariantCoreService;
 use Illuminate\Http\Request;
@@ -37,7 +38,7 @@ class ProductVariantController extends Controller
 
         toastr('Created Sucessfully..', 'success', 'success');
 
-        return redirect()->route('vendor.products-variant.index', ['username' => Auth::user()->username,'product'=>$request->product]);
+        return redirect()->route('vendor.products-variant.index', ['username' => Auth::user()->username, 'product' => $request->product]);
     }
 
     /**
@@ -51,33 +52,38 @@ class ProductVariantController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $username,string $id)
+    public function edit(string $username, string $id)
     {
-
         $variant = ProductVariantCoreService::findOrFail($id);
 
-        return view('vendor.products.product-variant.edit' ,compact('variant'));
+        return view('vendor.products.product-variant.edit', compact('variant'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $username,string $id)
+    public function update(Request $request, string $username, string $id)
     {
         $variant = ProductVariantCoreService::update($request, $username, Auth::user()->id, $id);
 
         toastr('Updated Sucessfully..', 'success', 'success');
 
-        return redirect()->route('vendor.products-variant.index', ['username' => Auth::user()->username,'product'=>$variant->product_id]);
+        return redirect()->route('vendor.products-variant.index', ['username' => Auth::user()->username, 'product' => $variant->product_id]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $userrname,string $id)
+    public function destroy(string $userrname, string $id)
     {
         $variant = ProductVariantCoreService::findOrFail($id);
-        
+
+        $variantItemCheck = ProductVariantItem::where('product_variant_id', $variant->id)->count();
+
+        if ($variantItemCheck > 0) {
+            return response(['status' => 'error', 'message' => 'This variant contain variant items in it delete the variant items first for delete this variant!']);
+        }
+
         $variant->delete();
 
         return response(['status' => 'success', 'message' => 'Deleted Succuessfully!']);

@@ -7,6 +7,8 @@ use AndyCommerce\Core\Facades\Product;
 use AndyCommerce\Core\Models\Brand;
 use AndyCommerce\Core\Models\Category;
 use AndyCommerce\Core\Models\ChildCategory;
+use AndyCommerce\Core\Models\ProductImageGallery;
+use AndyCommerce\Core\Models\ProductVariant;
 use AndyCommerce\Core\Models\SubCategory;
 use AndyCommerce\Core\Services\ProductCoreService;
 use App\Http\Controllers\Controller;
@@ -38,7 +40,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        
+
         ProductCoreService::store($request, Auth::user()->id);
 
         toastr('Created Sucessfully..', 'success');
@@ -86,9 +88,38 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($username, string $id)
     {
-        //
+        $product = ProductCoreService::findOrFail($id);
+
+        // Delete product image gallery
+        $galleryImages = ProductImageGallery::where('product_id', $product->id)->get();
+        foreach ($galleryImages as $image) {
+            $image->delete();
+        }
+
+        // Delete product variant if exists
+
+        $variants = ProductVariant::where('product_id', $product->id)->get();
+        foreach ($variants as $variant) {
+            $variant->productVariantItems()->delete();
+            $variant->delete();
+        }
+
+        $product->delete();
+
+        return response(['status' => 'success', 'message' => 'Deleted Succuessfully!']);
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $product = ProductCoreService::findOrFail($request->id);
+
+        $product->status = $request->status == 'true' ? 1 : 0;
+
+        $product->save();
+
+        return response(['status' => 'success', 'message' => 'Status has been updated Succuessfully!']);
     }
 
     /**

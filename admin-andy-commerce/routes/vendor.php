@@ -51,6 +51,7 @@ Route::prefix('{username}')->group(function () {
     // Product Routes
     Route::get('/product/get-subcategories', [ProductController::class, 'getSubCategories'])->name('product.get-subcategories');
     Route::get('/product/get-child-categories', [ProductController::class, 'getChildCategories'])->name('product.get-child-categories');
+    Route::put('/product/change-status', [ProductController::class, 'changeStatus'])->name('product.change-status');
     Route::resource('/products', ProductController::class);
 
     // Product Image Gallery
@@ -63,6 +64,12 @@ Route::prefix('{username}')->group(function () {
 
     // Product Variant Item
     Route::get('/products-variant-item/{productId}/{variantId}',[ProductVariantItemController::class,'index'])->name('products-variant-item.index');
+    Route::get('/products-variant-item/create/{productId}/{variantId}',[ProductVariantItemController::class,'create'])->name('products-variant-item.create');
+    Route::post('/products-variant-item',[ProductVariantItemController::class,'store'])->name('products-variant-item.store');
+    Route::get('/products-variant-item-edit/{variantItemId}',[ProductVariantItemController::class,'edit'])->name('products-variant-item.edit');
+    Route::put('/products-variant-item-update/{variantItemId}',[ProductVariantItemController::class,'update'])->name('products-variant-item.update');
+    Route::delete('/products-variant-item-destroy/{variantItemId}',[ProductVariantItemController::class,'destroy'])->name('products-variant-item.destroy');
+    Route::put('/products-variant-item-status',[ProductVariantItemController::class,'changeStatus'])->name('products-variant-item.change-status');
 
 
 });

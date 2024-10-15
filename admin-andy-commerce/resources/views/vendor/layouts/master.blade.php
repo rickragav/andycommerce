@@ -26,8 +26,9 @@
     <meta name="csrf_token" content="{{ csrf_token() }}" />
 
     <!-- Template CSS -->
-    <link rel="stylesheet" href="{{ asset('backend/assets/css/style.css') }}">
+
     <link rel="stylesheet" href="{{ asset('backend/assets/css/main.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('backend/assets/css/components.css') }}">
 
     <!-- Start GA -->

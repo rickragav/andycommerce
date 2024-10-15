@@ -28,7 +28,7 @@ class ProductImageGalleryDataTable extends DataTable
                 return  $deleteBtn;
             })
             ->addColumn('image', function ($query) {
-                return $img = "<img width='200px' src='" . asset($query->image) . "' ></img>";
+                return $img = "<img width='100px' src='" . asset($query->image) . "' ></img>";
             })
             ->rawColumns(['image', 'type', 'status', 'action'])
             ->setRowId('id');
@@ -76,7 +76,7 @@ class ProductImageGalleryDataTable extends DataTable
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
-                ->width(400)
+                ->width(100)
                 ->addClass('text-left'),
         ];
     }
