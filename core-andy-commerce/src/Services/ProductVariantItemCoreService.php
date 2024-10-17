@@ -13,21 +13,20 @@ class ProductVariantItemCoreService {
     }
 
     public static function store(Request $request)
+
     {
+
         $request->validate([
             'variant_id' => ['integer', 'required'],
             'name' => ['required', 'max:200'],
-            'price' => ['integer', 'required'],
-            'is_default' => ['required'],
-            'status' => ['required'],
         ]);
 
         $variantItem = new ProductVariantItem();
-        $variantItem->product_variant_id = $request->variant_id;
+        $variantItem->variation_id = $request->variant_id;
+        if ($request->variant_id == 2) {
+            $variantItem->color_code = $request->color_code;
+        }
         $variantItem->name = $request->name;
-        $variantItem->price = $request->price;
-        $variantItem->is_default = $request->is_default;
-        $variantItem->status = $request->status;
         $variantItem->save();
     }
 
@@ -36,16 +35,10 @@ class ProductVariantItemCoreService {
         $request->validate([
             
             'name' => ['required', 'max:200'],
-            'price' => ['integer', 'required'],
-            'is_default' => ['required'],
-            'status' => ['required'],
         ]);
 
         $variantItem =  ProductVariantItem::findOrFail($id);
         $variantItem->name = $request->name;
-        $variantItem->price = $request->price;
-        $variantItem->is_default = $request->is_default;
-        $variantItem->status = $request->status;
         $variantItem->save();
 
         return $variantItem;

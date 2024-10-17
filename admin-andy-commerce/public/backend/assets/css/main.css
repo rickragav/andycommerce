@@ -3038,8 +3038,8 @@
 
 
 .tt-sticky-sidebar {
-    position: sticky;
-    top: 5.62421875rem;
+    position: sticky !important;
+    top: 0px;
     -webkit-transition: all 0.3s ease-in-out;
     transition: all 0.3s ease-in-out;
     z-index: 8;

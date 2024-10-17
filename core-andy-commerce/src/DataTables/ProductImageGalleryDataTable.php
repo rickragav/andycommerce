@@ -39,7 +39,7 @@ class ProductImageGalleryDataTable extends DataTable
      */
     public function query(ProductImageGallery $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->where('shopper_id', Auth::user()->id);
     }
 
     /**

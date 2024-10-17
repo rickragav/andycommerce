@@ -23,8 +23,9 @@
             <div class="row mb-4 g-4">
                 <!--left sidebar-->
                 <div class="col-xl-9 order-2 order-md-2 order-lg-2 order-xl-1">
-                    <form action="{{ route('vendor.products.store', ['username' => Auth::user()->username]) }}"
-                        method="POST" enctype="multipart/form-data">
+                    <form id="product-variation-form"
+                        action="{{ route('vendor.products.store', ['username' => Auth::user()->username]) }}" method="POST"
+                        enctype="multipart/form-data">
 
                         @csrf
                         <!--basic information start-->
@@ -163,38 +164,112 @@
                                     <div class="form-check form-switch">
                                         <label class="form-check-label fw-medium text-primary" for="is_variant">Has
                                             Variations?</label>
-                                        <select id="is_variant" class="form-control" name="is_variant">
-                                            <option value="1">Yes</option>
+                                        <select id="is_variant" class="form-control" onchange="isVariantProduct(this)"
+                                            name="is_variant">
                                             <option value="0">No</option>
+                                            <option value="1">Yes</option>
                                         </select>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-md-4">
+                                <!-- without variation start-->
+                                <div class="noVariation">
+                                    <div class="row">
+                                        <div class="col-md-4">
 
-                                        <label class="form-label">Price <span class="text-danger">*</span></label>
-                                        <input type="text" name="price" class="form-control"
-                                            placeholder="Product price" value="{{ old('price') }}">
+                                            <label class="form-label">Price <span class="text-danger">*</span></label>
+                                            <input id="price" type="text" name="price" class="form-control"
+                                                placeholder="Product price" value="{{ old('price') }}">
+
+                                        </div>
+
+                                        <div class="col-md-4">
+
+                                            <label class="form-label">Stock<span class="text-danger">*</span></label>
+                                            <input id="qty" type="number" min="0" name="qty"
+                                                class="form-control" placeholder="Stock qty" value="{{ old('qty') }}">
+
+                                        </div>
+
+                                        <div class="col-md-4">
+
+                                            <label class="form-label">SKU <span class="text-danger">*</span></label>
+                                            <input id="sku" type="text" name="sku" class="form-control"
+                                                placeholder="Product Sku" value="{{ old('sku') }}">
+
+                                        </div>
 
                                     </div>
+                                </div>
+                                <!-- without variation End-->
+                                <!--for variation row start-->
+                                <div class="hasVariation" style="display: none">
 
-                                    <div class="col-md-4">
+                                    @if (count($variations) > 0)
+                                        <div class="row g-3 mt-1">
+                                            <div class="col-lg-6">
+                                                <div class="mb-0">
+                                                    <label class="form-label">Select Variations</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="mb-0">
+                                                    <label class="form-label">Select Values</label>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                        <label class="form-label">Stock<span class="text-danger">*</span></label>
-                                        <input type="number" min="0" name="qty" class="form-control"
-                                            placeholder="Stock qty" value="{{ old('qty') }}">
+                                        <div class="chosen_variation_options">
+                                            <div class="row g-3">
+                                                <div class="col-lg-6">
+                                                    <div class="mb-0">
 
+                                                        <select class="form-control selectric"
+                                                            onchange="getVariationValues(this)"
+                                                            name="chosen_variations[]">
+                                                            <option value="">Select a Variation
+                                                            </option>
+                                                            @foreach ($variations as $key => $variation)
+                                                                <option value="{{ $variation->id }}">
+                                                                    {{ $variation->name }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="mb-0">
+                                                        <div class="variationvalues">
+                                                            <input type="text" class="form-control"
+                                                                placeholder="Select variation values" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="mb-4 mt-4">
+                                                    <button class="btn btn-primary" type="button"
+                                                        onclick="addAnotherVariation()">
+                                                        <i data-feather="plus" class="me-1"></i>
+                                                        Add Another Variation
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    <div class="variation_combination" id="variation_combination">
+                                        {{-- combinations will be added here via ajax response --}}
                                     </div>
 
-                                    <div class="col-md-4">
 
-                                        <label class="form-label">SKU <span class="text-danger">*</span></label>
-                                        <input type="text" name="sku" class="form-control"
-                                            placeholder="Product Sku" value="{{ old('sku') }}">
 
-                                    </div>
+
+
 
                                 </div>
+                                <!--for variation row end-->
                             </div>
                         </div>
                         <!--product price sku and stock End-->
@@ -367,6 +442,10 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('scripts')
+    @include('backend.inc.product-scripts')
 @endsection
 
 @push('scripts')

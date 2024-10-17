@@ -29,13 +29,7 @@ class ProductVariantItemDataTable extends DataTable
 
                 return $editBtn . $deleteBtn;
             })
-            ->addColumn('is_default', function($query){
-                if($query->is_default == 1){
-                    return '<i class="badge bg-success">defalut</i>';
-                }else {
-                    return '<i class="badge bg-danger">no</i>';
-                }
-            })
+            
             ->addColumn('status', function ($query) {
                 if ($query->status == 1) {
                     $button =
@@ -59,9 +53,9 @@ class ProductVariantItemDataTable extends DataTable
                 return $button;
             })
             ->addColumn('variant_name', function ($query) {
-                return $query->productVariant->name;
+                return $query->productVariant->id;
             })
-            ->rawColumns(['action', 'status','is_default'])
+            ->rawColumns(['action', 'status'])
             ->setRowId('id');
     }
 
@@ -70,7 +64,9 @@ class ProductVariantItemDataTable extends DataTable
      */
     public function query(ProductVariantItem $model): QueryBuilder
     {
-        return $model->where('product_variant_id',request()->variantId)->newQuery();
+        return $model
+        ->where('variation_id',request()->variantId)
+        ->newQuery();
     }
 
     /**
@@ -93,7 +89,22 @@ class ProductVariantItemDataTable extends DataTable
      */
     public function getColumns(): array
     {
-        return [Column::make('id')->addClass('text-left'), Column::make('name')->addClass('text-left'), Column::make('variant_name')->addClass('text-left'), Column::make('price')->addClass('text-left'), Column::make('is_default')->addClass('text-left'), Column::make('status')->addClass('text-left'), Column::computed('action')->exportable(false)->printable(false)->width(200)->addClass('text-left')];
+        return [
+            Column::make('id')->width(80)->addClass('text-left')->title('S/L'),
+            Column::make('name')
+            ->addClass('text-left')
+            ->width(250)
+            ->title('Name'),
+            Column::make('color_code')
+            ->addClass('text-left')
+            ->width(250)
+            ->title('Code'),
+            Column::make('status')
+            ->addClass('text-left')
+            ->width(100)
+            ->title('Active'),
+            Column::computed('action')->exportable(false)->printable(false)->width(300)->addClass('text-right'),
+        ];
     }
 
     /**

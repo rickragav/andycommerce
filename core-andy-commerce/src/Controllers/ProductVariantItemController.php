@@ -12,13 +12,13 @@ use Illuminate\Support\Facades\Auth;
 
 class ProductVariantItemController extends Controller
 {
-    public function index(ProductVariantItemDataTable $datatables, $username, $productId, $variantId)
+    public function index(ProductVariantItemDataTable $datatables, $username, $variantId)
     {
-        $product = ProductCoreService::findOrFail($productId);
+        
 
         $variant = ProductVariantCoreService::findOrFail($variantId);
 
-        return $datatables->render('vendor.products.product-variant-item.index', compact('product', 'variant'));
+        return $datatables->render('vendor.products.product-variant-item.index', compact( 'variant'));
     }
 
     public function store(Request $request)
@@ -27,7 +27,9 @@ class ProductVariantItemController extends Controller
 
         toastr('Created Successfully!', 'success', 'success');
 
-        return redirect()->route('vendor.products-variant-item.index', ['username' => Auth::user()->username, 'productId' => $request->product_id, 'variantId' => $request->variant_id]);
+        return redirect()->route('vendor.products-variant-item.index', ['username' => Auth::user()->username, 
+        
+        'variantId' => $request->variant_id]);
     }
 
     public function create($username, $productId, $variantId)
@@ -51,7 +53,9 @@ class ProductVariantItemController extends Controller
 
         toastr('Updated Successfully!', 'success', 'success');
 
-        return redirect()->route('vendor.products-variant-item.index', ['username' => Auth::user()->username, 'productId' => $variantItem->productVariant->product_id, 'variantId' => $variantItem->product_variant_id]);
+        
+
+        return redirect()->route('vendor.products-variant-item.index', ['username' => Auth::user()->username, 'variantId' => $variantItem->variation_id]);
     }
 
     public function destroy($username, $variantItemId){

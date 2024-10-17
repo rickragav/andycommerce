@@ -9,7 +9,7 @@
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
             <li class="active">
-                <a href="{{ route('vendor.dashboard',[Auth::user()->username]) }}" class="nav-link has-dropdown"><i
+                <a href="{{ route('vendor.dashboard', [Auth::user()->username]) }}" class="nav-link has-dropdown"><i
                         class="fas fa-fire"></i><span>Dashboard</span></a>
 
             </li>
@@ -25,32 +25,42 @@
                     </li>
 
                     <li class="{{ setActive(['vendor.sub-category.*']) }}"><a class="nav-link"
-                        href="{{ route('vendor.sub-category.index', ['username' => Auth::user()->username]) }}">Sub Category</a>
-                </li>
+                            href="{{ route('vendor.sub-category.index', ['username' => Auth::user()->username]) }}">Sub
+                            Category</a>
+                    </li>
 
-                <li class="{{ setActive(['vendor.child-category.*']) }}"><a class="nav-link"
-                    href="{{ route('vendor.child-category.index', ['username' => Auth::user()->username]) }}">Child Category</a>
-            </li>
+                    <li class="{{ setActive(['vendor.child-category.*']) }}"><a class="nav-link"
+                            href="{{ route('vendor.child-category.index', ['username' => Auth::user()->username]) }}">Child
+                            Category</a>
+                    </li>
 
 
 
                 </ul>
             </li>
 
-            <li class="dropdown  {{ setActive(['vendor.brand.*','vendor.slider.*','vendor.products.*']) }}">
+            <li
+                class="dropdown  {{ setActive(['vendor.brand.*', 'vendor.slider.*', 'vendor.products.*', 'vendor.products-variant.*','vendor.products-variant-item.*','vendor.product-variant.*']) }}">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
                     <span>Ecommerce</span></a>
                 <ul class="dropdown-menu">
                     <li class="{{ setActive(['vendor.brand.*']) }}"><a class="nav-link"
-                            href="{{ route('vendor.brand.index', ['username' => Auth::user()->username]) }}">Brand</a>
+                            href="{{ route('vendor.brand.index', ['username' => Auth::user()->username]) }}">All
+                            Brand</a>
                     </li>
                     <li class="{{ setActive(['vendor.products.*']) }}"><a class="nav-link"
-                        href="{{ route('vendor.products.index', ['username' => Auth::user()->username]) }}">Product</a>
-                </li>
+                            href="{{ route('vendor.products.index', ['username' => Auth::user()->username]) }}">All
+                            Product</a>
+                    </li>
+                    <li class="{{ setActive(['vendor.products-variant.*','vendor.products-variant-item.*','vendor.product-variant.*']) }}"><a class="nav-link"
+                            href="{{ route('vendor.products-variant.index', ['username' => Auth::user()->username]) }}">All
+                            Variation</a>
+                    </li>
 
-                <li class="{{ setActive(['vendor.slider.*']) }}"><a class="nav-link"
-                    href="{{ route('vendor.slider.index', ['username' => Auth::user()->username]) }}">Slider</a>
-            </li>
+                    <li class="{{ setActive(['vendor.slider.*']) }}"><a class="nav-link"
+                            href="{{ route('vendor.slider.index', ['username' => Auth::user()->username]) }}">All
+                            Slider</a>
+                    </li>
 
                 </ul>
             </li>

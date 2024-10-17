@@ -24,11 +24,11 @@ class ProductVariantDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function ($query) {
-                $variantItems = "<a href='" . route('vendor.products-variant-item.index', [Auth::user()->username, 'productId'=> request()->product, 'variantId' => $query->id]) . "' class='btn btn-info mr-2'>Variant Items</a>";
+                $variantItems = "<a href='" . route('vendor.products-variant-item.index', [Auth::user()->username, 'variantId' => $query->id]) . "' class='btn btn-info mr-2'><i class='fas fa-plus mr-1'></i>Add values</a>";
                 $editBtn = "<a href='" . route('vendor.products-variant.edit', [Auth::user()->username, $query->id]) . "' class='btn btn-primary'><i class='far fa-edit'></i></a>";
                 $deleteBtn = "<a href='" . route('vendor.products-variant.destroy', [Auth::user()->username, $query->id]) . "' class='btn btn-danger ml-2 delete-item'><i class='far fa-trash-alt'></i></a>";
 
-                return $variantItems . $editBtn . $deleteBtn;
+                return $variantItems.$editBtn . $deleteBtn;
             })
             ->addColumn('status', function ($query) {
                 if ($query->status == 1) {
@@ -61,7 +61,7 @@ class ProductVariantDataTable extends DataTable
      */
     public function query(ProductVariant $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->where('shopper_id', Auth::user()->id);
     }
 
     /**
@@ -85,12 +85,16 @@ class ProductVariantDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id')->width(80)->addClass('text-left'),
+            Column::make('id')->width(80)->addClass('text-left')->title('S/L'),
             Column::make('name')
-            ->addClass('text-left'),
+            ->addClass('text-left')
+            ->width(250)
+            ->title('Name'),
             Column::make('status')
-            ->addClass('text-left'),
-            Column::computed('action')->exportable(false)->printable(false)->width(400)->addClass('text-left'),
+            ->addClass('text-left')
+            ->width(100)
+            ->title('Active'),
+            Column::computed('action')->exportable(false)->printable(false)->width(300)->addClass('text-right'),
         ];
     }
 

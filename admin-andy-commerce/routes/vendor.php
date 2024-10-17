@@ -9,6 +9,7 @@ use AndyCommerce\Core\Controllers\ProductController;
 use AndyCommerce\Core\Controllers\ProductImageGalleryController;
 use AndyCommerce\Core\Controllers\ProductVariantController;
 use AndyCommerce\Core\Controllers\ProductVariantItemController;
+use AndyCommerce\Core\Controllers\SingleProductVariantController;
 use AndyCommerce\Core\Controllers\SliderController;
 use AndyCommerce\Core\Controllers\SubCategoryController;
 use AndyCommerce\Core\Controllers\VendorProfileController;
@@ -62,8 +63,25 @@ Route::prefix('{username}')->group(function () {
     Route::resource('/products-variant', ProductVariantController::class);
 
 
+    // Single Product Variant Handling
+    Route::post('/product-variant/new-variation', [SingleProductVariantController::class, 'getNewVariation'])->name('product-variant.newVariation');
+    Route::post('/product-variant/get-variation-values', [SingleProductVariantController::class, 'getVariationValues'])->name('product-variant.getVariationValues');
+    Route::post('/product-variant/variation-combination', [SingleProductVariantController::class, 'generateVariationCombinations'])->name('product-variant.generateVariationCombinations');
+    Route::resource('/product-variant', SingleProductVariantController::class);
+
+
+    // // Product Variant Item
+    // Route::get('/products-variant-item/{productId}/{variantId}',[ProductVariantItemController::class,'index'])->name('products-variant-item.index');
+    // Route::get('/products-variant-item/create/{productId}/{variantId}',[ProductVariantItemController::class,'create'])->name('products-variant-item.create');
+    // Route::post('/products-variant-item',[ProductVariantItemController::class,'store'])->name('products-variant-item.store');
+    // Route::get('/products-variant-item-edit/{variantItemId}',[ProductVariantItemController::class,'edit'])->name('products-variant-item.edit');
+    // Route::put('/products-variant-item-update/{variantItemId}',[ProductVariantItemController::class,'update'])->name('products-variant-item.update');
+    // Route::delete('/products-variant-item-destroy/{variantItemId}',[ProductVariantItemController::class,'destroy'])->name('products-variant-item.destroy');
+    // Route::put('/products-variant-item-status',[ProductVariantItemController::class,'changeStatus'])->name('products-variant-item.change-status');
+
+
     // Product Variant Item
-    Route::get('/products-variant-item/{productId}/{variantId}',[ProductVariantItemController::class,'index'])->name('products-variant-item.index');
+    Route::get('/products-variant-item/{variantId}',[ProductVariantItemController::class,'index'])->name('products-variant-item.index');
     Route::get('/products-variant-item/create/{productId}/{variantId}',[ProductVariantItemController::class,'create'])->name('products-variant-item.create');
     Route::post('/products-variant-item',[ProductVariantItemController::class,'store'])->name('products-variant-item.store');
     Route::get('/products-variant-item-edit/{variantItemId}',[ProductVariantItemController::class,'edit'])->name('products-variant-item.edit');

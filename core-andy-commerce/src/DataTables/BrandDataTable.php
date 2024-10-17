@@ -73,7 +73,7 @@ class BrandDataTable extends DataTable
      */
     public function query(Brand $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->where('shopper_id', Auth::user()->id);
     }
 
     /**

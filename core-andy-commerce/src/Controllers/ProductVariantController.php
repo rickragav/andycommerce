@@ -17,8 +17,8 @@ class ProductVariantController extends Controller
      */
     public function index(Request $request, ProductVariantDataTable $dataTable)
     {
-        $product = ProductCoreService::findOrFail($request->product);
-        return $dataTable->render('vendor.products.product-variant.index', compact('product'));
+        //$product = ProductCoreService::findOrFail($request->product);
+        return $dataTable->render('vendor.products.product-variant.index');
     }
 
     /**
@@ -32,13 +32,13 @@ class ProductVariantController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request,  ProductVariantDataTable $dataTable)
     {
         ProductVariantCoreService::store($request, Auth::user()->id);
 
         toastr('Created Sucessfully..', 'success', 'success');
 
-        return redirect()->route('vendor.products-variant.index', ['username' => Auth::user()->username, 'product' => $request->product]);
+        return $dataTable->render('vendor.products.product-variant.index');
     }
 
     /**
@@ -68,7 +68,7 @@ class ProductVariantController extends Controller
 
         toastr('Updated Sucessfully..', 'success', 'success');
 
-        return redirect()->route('vendor.products-variant.index', ['username' => Auth::user()->username, 'product' => $variant->product_id]);
+        return redirect()->route('vendor.products-variant.index', ['username' => Auth::user()->username]);
     }
 
     /**
@@ -78,7 +78,7 @@ class ProductVariantController extends Controller
     {
         $variant = ProductVariantCoreService::findOrFail($id);
 
-        $variantItemCheck = ProductVariantItem::where('product_variant_id', $variant->id)->count();
+        $variantItemCheck = ProductVariantItem::where('variation_id', $variant->id)->count();
 
         if ($variantItemCheck > 0) {
             return response(['status' => 'error', 'message' => 'This variant contain variant items in it delete the variant items first for delete this variant!']);

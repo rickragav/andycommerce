@@ -32,7 +32,8 @@ class ProductController extends Controller
     {
         $categories = Category::where('shopper_id', Auth::user()->id)->get();
         $brands = Brand::where('shopper_id', Auth::user()->id)->get();
-        return view('vendor.products.create', compact('categories', 'brands'));
+        $variations = ProductVariant::isActive()->get();
+        return view('vendor.products.create', compact('categories', 'brands','variations'));
     }
 
     /**

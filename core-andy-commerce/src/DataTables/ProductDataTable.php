@@ -44,7 +44,7 @@ class ProductDataTable extends DataTable
                 if ($query->is_variant) {
                     $moreBtn .= '
                         <a class="dropdown-item has-icon" href="' .
-                        route('vendor.products-variant.index', [Auth::user()->username, 'product' => $query->id]) .
+                        route('vendor.product-variant.index', [Auth::user()->username, 'product' => $query->id]) .
                         '">
                             <i class="far fa-file"></i> Variants
                         </a>';
@@ -110,7 +110,7 @@ class ProductDataTable extends DataTable
      */
     public function query(Product $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->newQuery()->where('shopper_id', Auth::user()->id);
     }
 
     /**

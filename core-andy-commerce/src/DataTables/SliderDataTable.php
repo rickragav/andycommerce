@@ -49,7 +49,7 @@ class SliderDataTable extends DataTable
      */
     public function query(Slider $model): QueryBuilder
     {
-       return $model->newQuery();
+       return $model->newQuery()->where('shopper_id', Auth::user()->id);
        //return $model->newQuery()->where('shopper_id', Auth::user()->id);
     }
 

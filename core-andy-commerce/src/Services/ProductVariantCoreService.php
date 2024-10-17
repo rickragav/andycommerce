@@ -15,31 +15,23 @@ class ProductVariantCoreService
     public static function store(Request $request, $shopper_id)
     {
         $request->validate([
-            'product' => ['required', 'integer'],
             'name' => ['required', 'max:200'],
-            'status' => ['required'],
         ]);
 
         $productVariant = new ProductVariant();
-        $productVariant->product_id = $request->product;
         $productVariant->name = $request->name;
-        $productVariant->status = $request->status;
         $productVariant->shopper_id = $shopper_id;
         $productVariant->save();
-
     }
 
     public static function update(Request $request, string $username, string $shopper_id, string $id)
     {
         $request->validate([
-            
             'name' => ['required', 'max:200'],
-            'status' => ['required'],
         ]);
 
         $productVariant = ProductVariant::findOrFail($id);
         $productVariant->name = $request->name;
-        $productVariant->status = $request->status;
         $productVariant->shopper_id = $shopper_id;
         $productVariant->save();
 
